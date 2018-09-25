@@ -34,4 +34,13 @@ Then type into your browser: http://localhost:8000/GPGTest.php
 - --verify
 ## Sample gpg commands
 ### Internal commands
+- Delete keypairs
+```
+sudo gpg --homedir .gnupg --delete-secret-key test@gpgshell.example
+sudo gpg --homedir .gnupg --delete-key test@gpgshell.example
+```
+- Edit keys
+```
+sudo gpg --local-user www-data --edit-key --homedir .gnupg test@gpgshell.example
+```
 ### Batch commands
