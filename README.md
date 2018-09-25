@@ -32,3 +32,6 @@ Then type into your browser: http://localhost:8000/GPGTest.php
 - --decrypt
 - --detach-sign
 - --verify
+## Sample gpg commands
+### Internal commands
+### Batch commands
