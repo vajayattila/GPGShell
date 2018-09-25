@@ -2,7 +2,7 @@
 
 /**
  *  @file GPGTest.php
- *  @brief Interface for gpg (GnuPG) shell commands test cases. Project home: 
+ *  @brief Interface for gpg (GnuPG) shell commands test cases. Project home: https://github.com/vajayattila/GPGShell
  *	@author Vajay Attila (vajay.attila@gmail.com)
  *  @copyright MIT License (MIT)
  *  @date 2018.09.19-2018.09.24
