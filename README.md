@@ -16,7 +16,17 @@ sudo gpg --quick-generate-key --homedir .gnupg test@gpgshell.example
 ```
 - Test with php built-in server
 ```
-sudo php -S localhost:8000
+sudo php -S localhost:8000 // in GPGShell-master folder
 
-Then type into your browser: http://localhost:8000/GPGTest.php
+Then type into your browser: http://localhost:8000/GPGTest.php 
 ```
+## Featured GnuPG directives
+- --list-keys
+- --list-secret-keys
+- --export
+- --export-secret-key
+- --import
+- --encrypt
+- --decrypt
+- --detach-sign
+- --verify
