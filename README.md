@@ -44,3 +44,37 @@ sudo gpg --homedir .gnupg --delete-key test@gpgshell.example
 sudo gpg --local-user www-data --edit-key --homedir .gnupg test@gpgshell.example
 ```
 ### Batch commands
+- List public and private keys
+```
+sudo gpg --batch --quiet --local-user www-data --list-keys --homedir .gnupg
+sudo gpg --batch --quiet --local-user www-data --list-secret-keys --homedir .gnupg
+```
+- Export keypair
+```
+sudo gpg --batch --quiet --local-user www-data --armor --homedir .gnupg --export-secret-key test@gpgshell.example > privatekey.gpg
+sudo gpg --batch --quiet --local-user www-data --armor --homedir .gnupg --export test@gpgshell.example > publickey.gpg
+```
+-Import keypair
+```
+sudo gpg --batch --quiet --local-user www-data --armor --homedir .gnupg --import privatekey.gpg
+sudo gpg --batch --quiet --local-user www-data --armor --homedir .gnupg --import publickey.gpg
+then interactive command:
+sudo gpg --local-user www-data --edit-key --homedir .gnupg test@gpgshell.example
+gpg> trust
+```
+- Decrypt
+```
+sudo gpg --batch --quiet --local-user www-data --decrypt --homedir .gnupg --output decrypted.txt message.gpg
+```
+- Encrypt
+```
+sudo gpg --batch --quiet --local-user www-data --armor --encrypt --homedir .gnupg --output message.gpg --recipient test@gpgshell.example encodable.txt
+```
+- Detach Sign
+```
+gpg --detach-sign --armor --batch --quiet --yes --output  ./encodeble.txt.sig --recipient import@test ./encodable.txt
+```
+- Verify
+```
+gpg --batch --quiet --recipient import@test --verify ./encodeble.txt.sig ./encodable.txt
+```
