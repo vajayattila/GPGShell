@@ -54,7 +54,7 @@ sudo gpg --batch --quiet --local-user www-data --list-secret-keys --homedir .gnu
 sudo gpg --batch --quiet --local-user www-data --armor --homedir .gnupg --export-secret-key test@gpgshell.example > privatekey.gpg
 sudo gpg --batch --quiet --local-user www-data --armor --homedir .gnupg --export test@gpgshell.example > publickey.gpg
 ```
--Import keypair
+- Import keypair
 ```
 sudo gpg --batch --quiet --local-user www-data --armor --homedir .gnupg --import privatekey.gpg
 sudo gpg --batch --quiet --local-user www-data --armor --homedir .gnupg --import publickey.gpg
