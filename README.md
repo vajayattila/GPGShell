@@ -1,6 +1,8 @@
 # GPGShell
 Interface for gpg (GnuPG) shell commands
 Inspired by https://maslosoft.com/blog/2017/09/12/using-gpg-with-php-on-server/
+Documentation for --list-key and --list-secret-key directives: https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob_plain;f=doc/DETAILS
+
 ## Dependency 
 GnuPG (https://gnupg.org/)
 ## Setup
