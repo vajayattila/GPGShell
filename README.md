@@ -1,5 +1,6 @@
 # GPGShell
 Interface for gpg (GnuPG) shell commands
+Inspired by https://maslosoft.com/blog/2017/09/12/using-gpg-with-php-on-server/
 ## Dependency 
 GnuPG (https://gnupg.org/)
 ## Setup
