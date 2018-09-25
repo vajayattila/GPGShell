@@ -1,0 +1,1160 @@
+{
+    "typeOfRecord": [
+        {
+            "tru": {
+                "description": "Trust database information",
+                "fields": [
+                    {
+                        "description": "Type of record",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Reason for staleness of trust.  If this field is empty, then the trustdb is not stale.",
+                        "possibleValues": [
+                            {
+                                "value": "o",
+                                "description": "Trustdb is old"
+                            },
+                            {
+                                "value": "t",
+                                "description": "Trustdb was built with a different trust model than the one we are using now."
+                            }
+                        ],
+                        "multipleFlags": true
+                    },
+                    {
+                        "description": "Trust model",
+                        "possibleValues": [
+                            {
+                                "value": "0",
+                                "description": "Classic trust model, as used in PGP 2.x."
+                            },
+                            {
+                                "value": "1",
+                                "description": "PGP trust model, as used in PGP 6 and later. This is the same as the classic trust model, except for the addition of trust signatures."
+                            }
+                        ],
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Date trustdb was created in seconds since Epoch.",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Date trustdb will expire in seconds since Epoch.",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Number of marginally trusted users to introduce a new key signer (gpg's option --marginals-needed).",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Number of completely trusted users to introduce a new key signer (gpg's option --completes-needed).",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Maximum depth of a certification chain (gpg's option --max-cert-depth).",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    }
+                ]
+            },
+            "pub":{
+                "description": "Public key",
+                "fields": [
+                    {
+                        "description": "The name of the record type",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Validity",
+                        "possibleValues": [
+                            {
+                                "value": "o",
+                                "description": "Unknown (this key is new to the system)"
+                            },
+                            {
+                                "value": "i",
+                                "description": "The key is invalid (e.g. due to a missing self-signature)"
+                            },
+                            {
+                                "value": "d",
+                                "description": "The key has been disabled (deprecated - use the 'D' in field 12 instead)"
+                            },
+                            {
+                                "value": "r",
+                                "description": "The key has been revoked"
+                            },
+                            {
+                                "value": "e",
+                                "description": "The key has expired"
+                            },
+                            {
+                                "value": "-",
+                                "description": "Unknown validity (i.e. no value assigned)"
+                            },
+                            {
+                                "value": "-",
+                                "description": "Undefined validity.  '-' and 'q' may safely be treated as the same value for most purposes"
+                            },
+                            {
+                                "value": "n",
+                                "description": "The key is not valid"
+                            },
+                            {
+                                "value": "m",
+                                "description": "The key is marginal valid."
+                            },
+                            {
+                                "value": "f",
+                                "description": "The key is fully valid"
+                            },
+                            {
+                                "value": "u",
+                                "description": "The key is ultimately valid.  This often means that the secret key is available, but any key may be marked as ultimately valid."
+                            },
+                            {
+                                "value": "w",
+                                "description": "The key has a well known private part."
+                            },
+                            {
+                                "value": "s",
+                                "description": "The key has special validity.  This means that it might be self-signed and expected to be used in the STEED system."
+                            }
+                        ],
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Key length",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Public key algorithm",
+                        "possibleValues": [
+                            {
+                                "value": "1",
+                                "description": "RSA (Encrypt or Sign)"
+                            },
+                            {
+                                "value": "2",
+                                "description": "RSA Encrypt-Only"
+                            },
+                            {
+                                "value": "3",
+                                "description": "RSA Sign-Only"
+                            },
+                            {
+                                "value": "16",
+                                "description": "Elgamal (Encrypt-Only)"
+                            },
+                            {
+                                "value": "17",
+                                "description": "DSA (Digital Signature Algorithm)"
+                            },
+                            {
+                                "value": "18",
+                                "description": "Reserved for Elliptic Curve"
+                            },
+                            {
+                                "value": "19",
+                                "description": "Reserved for ECDSA"
+                            },
+                            {
+                                "value": "20",
+                                "description": "Reserved (formerly Elgamal Encrypt or Sign)"
+                            },
+                            {
+                                "value": "21",
+                                "description": "Reserved for Diffie-Hellman (X9.42, as defined for IETF-S/MIME)"
+                            },
+                            {
+                                "value": "100 to 110",
+                                "description": "Private/Experimental algorithm"
+                            }           
+                        ],
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "KeyID",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Creation date",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Expiration date",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Ownertrust",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Key capabilities",
+                        "possibleValues": [
+                            {
+                                "value": "e",
+                                "description": "Encrypt"
+                            },
+                            {
+                                "value": "s",
+                                "description": "Sign"
+                            },
+                            {
+                                "value": "c",
+                                "description": "Certify"
+                            },
+                            {
+                                "value": "a",
+                                "description": "Authentication"
+                            },
+                            {
+                                "value": "?",
+                                "description": "Unknown capability"
+                            },
+                            {
+                                "value": "D",
+                                "description": "Disabled key"
+                            },
+                            {
+                                "value": "Additional information",
+                                "description": "A key may have any combination of them in any order.  In addition to these letters, the primary key has uppercase versions of the letters to denote the _usable_ capabilities of the entire key, and a potential letter 'D' to indicate a disabled key."
+                            }
+                        ],
+                        "multipleFlags": true
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Compliance flags",
+                        "possibleValues": [
+                            {
+                                "value": "8",
+                                "description": "The key is compliant with RFC4880bis"
+                            },
+                            {
+                                "value": "23",
+                                "description": "The key is compliant with compliance mode \"de-vs\"."
+                            },
+                            {
+                                "value": "6001",
+                                "description": "Screening hit on the ROCA vulnerability."
+                            }
+                        ],
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Last update",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Origin",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    }
+                ]
+            },
+            "uid":{
+                "description": "User id",
+                "fields": [
+                    {
+                        "description": "The name of the record type",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Validity",
+                        "possibleValues": [
+                            {
+                                "value": "o",
+                                "description": "Unknown (this key is new to the system)"
+                            },
+                            {
+                                "value": "i",
+                                "description": "The key is invalid (e.g. due to a missing self-signature)"
+                            },
+                            {
+                                "value": "d",
+                                "description": "The key has been disabled (deprecated - use the 'D' in field 12 instead)"
+                            },
+                            {
+                                "value": "r",
+                                "description": "The key has been revoked"
+                            },
+                            {
+                                "value": "e",
+                                "description": "The key has expired"
+                            },
+                            {
+                                "value": "-",
+                                "description": "Unknown validity (i.e. no value assigned)"
+                            },
+                            {
+                                "value": "-",
+                                "description": "Undefined validity.  '-' and 'q' may safely be treated as the same value for most purposes"
+                            },
+                            {
+                                "value": "n",
+                                "description": "The key is not valid"
+                            },
+                            {
+                                "value": "m",
+                                "description": "The key is marginal valid."
+                            },
+                            {
+                                "value": "f",
+                                "description": "The key is fully valid"
+                            },
+                            {
+                                "value": "u",
+                                "description": "The key is ultimately valid.  This often means that the secret key is available, but any key may be marked as ultimately valid."
+                            },
+                            {
+                                "value": "w",
+                                "description": "The key has a well known private part."
+                            },
+                            {
+                                "value": "s",
+                                "description": "The key has special validity.  This means that it might be self-signed and expected to be used in the STEED system."
+                            }
+                        ],
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Creation date",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Expiration date",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Certificate S/N, UID hash, trust signature info",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "User-ID",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": true
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Last update",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Origin",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    }
+                ]
+            },
+            "ssb":{
+                "description": "Secret subkey (secondary key)",
+                "fields": [
+                    {
+                        "description": "The name of the record type",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Validity",
+                        "possibleValues": [
+                            {
+                                "value": "o",
+                                "description": "Unknown (this key is new to the system)"
+                            },
+                            {
+                                "value": "i",
+                                "description": "The key is invalid (e.g. due to a missing self-signature)"
+                            },
+                            {
+                                "value": "d",
+                                "description": "The key has been disabled (deprecated - use the 'D' in field 12 instead)"
+                            },
+                            {
+                                "value": "r",
+                                "description": "The key has been revoked"
+                            },
+                            {
+                                "value": "e",
+                                "description": "The key has expired"
+                            },
+                            {
+                                "value": "-",
+                                "description": "Unknown validity (i.e. no value assigned)"
+                            },
+                            {
+                                "value": "-",
+                                "description": "Undefined validity.  '-' and 'q' may safely be treated as the same value for most purposes"
+                            },
+                            {
+                                "value": "n",
+                                "description": "The key is not valid"
+                            },
+                            {
+                                "value": "m",
+                                "description": "The key is marginal valid."
+                            },
+                            {
+                                "value": "f",
+                                "description": "The key is fully valid"
+                            },
+                            {
+                                "value": "u",
+                                "description": "The key is ultimately valid.  This often means that the secret key is available, but any key may be marked as ultimately valid."
+                            },
+                            {
+                                "value": "w",
+                                "description": "The key has a well known private part."
+                            },
+                            {
+                                "value": "s",
+                                "description": "The key has special validity.  This means that it might be self-signed and expected to be used in the STEED system."
+                            }
+                        ],
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Key length",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Public key algorithm",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "KeyID",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Creation date",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Expiration date",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Certificate S/N, UID hash, trust signature info",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Ownertrust",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "User-ID",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Signature class",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Key capabilities",
+                        "possibleValues": [
+                            {
+                                "value": "e",
+                                "description": "Encrypt"
+                            },
+                            {
+                                "value": "s",
+                                "description": "Sign"
+                            },
+                            {
+                                "value": "c",
+                                "description": "Certify"
+                            },
+                            {
+                                "value": "a",
+                                "description": "Authentication"
+                            },
+                            {
+                                "value": "?",
+                                "description": "Unknown capability"
+                            },
+                            {
+                                "value": "D",
+                                "description": "Disabled key"
+                            },
+                            {
+                                "value": "Additional information",
+                                "description": "A key may have any combination of them in any order.  In addition to these letters, the primary key has uppercase versions of the letters to denote the _usable_ capabilities of the entire key, and a potential letter 'D' to indicate a disabled key."
+                            }
+                        ],
+                        "multipleFlags": true
+                    },
+                    {
+                        "description": "Issuer certificate fingerprint or other info",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Flag field",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "S/N of a token",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Hash algorithm",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Curve name",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Compliance flags",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Last update",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Origin",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Comment",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    }
+                ]
+            },
+            "fpr":{
+                "description": "Fingerprint (fingerprint is in field 10)",
+                "fields": [
+                    {
+                        "description": "The name of the record type",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Fingerprint",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    }
+                ]
+            },
+            "sub":{
+                "description": "Subkey (secondary key)",
+                "fields": [
+                    {
+                        "description": "The name of the record type",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Validity",
+                        "possibleValues": [
+                            {
+                                "value": "o",
+                                "description": "Unknown (this key is new to the system)"
+                            },
+                            {
+                                "value": "i",
+                                "description": "The key is invalid (e.g. due to a missing self-signature)"
+                            },
+                            {
+                                "value": "d",
+                                "description": "The key has been disabled (deprecated - use the 'D' in field 12 instead)"
+                            },
+                            {
+                                "value": "r",
+                                "description": "The key has been revoked"
+                            },
+                            {
+                                "value": "e",
+                                "description": "The key has expired"
+                            },
+                            {
+                                "value": "-",
+                                "description": "Unknown validity (i.e. no value assigned)"
+                            },
+                            {
+                                "value": "-",
+                                "description": "Undefined validity.  '-' and 'q' may safely be treated as the same value for most purposes"
+                            },
+                            {
+                                "value": "n",
+                                "description": "The key is not valid"
+                            },
+                            {
+                                "value": "m",
+                                "description": "The key is marginal valid."
+                            },
+                            {
+                                "value": "f",
+                                "description": "The key is fully valid"
+                            },
+                            {
+                                "value": "u",
+                                "description": "The key is ultimately valid.  This often means that the secret key is available, but any key may be marked as ultimately valid."
+                            },
+                            {
+                                "value": "w",
+                                "description": "The key has a well known private part."
+                            },
+                            {
+                                "value": "s",
+                                "description": "The key has special validity.  This means that it might be self-signed and expected to be used in the STEED system."
+                            }
+                        ],
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Key length",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Public key algorithm",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "KeyID",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Creation date",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Expiration date",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Key capabilities",
+                        "possibleValues": [
+                            {
+                                "value": "e",
+                                "description": "Encrypt"
+                            },
+                            {
+                                "value": "s",
+                                "description": "Sign"
+                            },
+                            {
+                                "value": "c",
+                                "description": "Certify"
+                            },
+                            {
+                                "value": "a",
+                                "description": "Authentication"
+                            },
+                            {
+                                "value": "?",
+                                "description": "Unknown capability"
+                            },
+                            {
+                                "value": "D",
+                                "description": "Disabled key"
+                            },
+                            {
+                                "value": "Additional information",
+                                "description": "A key may have any combination of them in any order.  In addition to these letters, the primary key has uppercase versions of the letters to denote the _usable_ capabilities of the entire key, and a potential letter 'D' to indicate a disabled key."
+                            }
+                        ],
+                        "multipleFlags": true
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Compliance flags",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Last update",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    }
+                ]
+            },
+            "sig":{
+                "description": "Signature",
+                "fields": [
+                    {
+                        "description": "The name of the record type",
+                        "possibleValues": null,
+                        "multipleFlags": false                        
+                    },
+                    {
+                        "description": "Validity",
+                        "possibleValues": [
+                            {
+                                "value": "!",
+                                "description": "Signature is good."                                
+                            },
+                            {
+                                "value": "-",
+                                "description": "Signature is bad."                                
+                            },
+                            {
+                                "value": "?",
+                                "description": "No public key to verify signature or public key is not usable."                                
+                            },
+                            {
+                                "value": "%",
+                                "description": "Other error verifying a signature"                                
+                            }
+                        ],
+                        "multipleFlags": false                       
+                    }
+                ]
+            },
+            "sec":{
+                "description": "Secret key",
+                "fields": [
+                    {
+                        "description": "The name of the record type",
+                        "possibleValues": null,
+                        "multipleFlags": false                        
+                    },
+                    {
+                        "description": "Validity",
+                        "possibleValues": [
+                            {
+                                "value": "o",
+                                "description": "Unknown (this key is new to the system)"
+                            },
+                            {
+                                "value": "i",
+                                "description": "The key is invalid (e.g. due to a missing self-signature)"
+                            },
+                            {
+                                "value": "d",
+                                "description": "The key has been disabled (deprecated - use the 'D' in field 12 instead)"
+                            },
+                            {
+                                "value": "r",
+                                "description": "The key has been revoked"
+                            },
+                            {
+                                "value": "e",
+                                "description": "The key has expired"
+                            },
+                            {
+                                "value": "-",
+                                "description": "Unknown validity (i.e. no value assigned)"
+                            },
+                            {
+                                "value": "-",
+                                "description": "Undefined validity.  '-' and 'q' may safely be treated as the same value for most purposes"
+                            },
+                            {
+                                "value": "n",
+                                "description": "The key is not valid"
+                            },
+                            {
+                                "value": "m",
+                                "description": "The key is marginal valid."
+                            },
+                            {
+                                "value": "f",
+                                "description": "The key is fully valid"
+                            },
+                            {
+                                "value": "u",
+                                "description": "The key is ultimately valid.  This often means that the secret key is available, but any key may be marked as ultimately valid."
+                            },
+                            {
+                                "value": "w",
+                                "description": "The key has a well known private part."
+                            },
+                            {
+                                "value": "s",
+                                "description": "The key has special validity.  This means that it might be self-signed and expected to be used in the STEED system."
+                            }
+                        ],
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Key length",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Public key algorithm",
+                        "possibleValues": [
+                            {
+                                "value": "1",
+                                "description": "RSA (Encrypt or Sign)"
+                            },
+                            {
+                                "value": "2",
+                                "description": "RSA Encrypt-Only"
+                            },
+                            {
+                                "value": "3",
+                                "description": "RSA Sign-Only"
+                            },
+                            {
+                                "value": "16",
+                                "description": "Elgamal (Encrypt-User-IDOnly)"
+                            },
+                            {
+                                "value": "17",
+                                "description": "DSA (Digital Signature Algorithm)"
+                            },
+                            {
+                                "value": "18",
+                                "description": "Reserved for Elliptic Curve"
+                            },
+                            {
+                                "value": "19",
+                                "description": "Reserved for ECDSA"
+                            },
+                            {
+                                "value": "20",
+                                "description": "Reserved (formerly Elgamal Encrypt or Sign)"
+                            },
+                            {
+                                "value": "21",
+                                "description": "Reserved for Diffie-Hellman (X9.42, as defined for IETF-S/MIME)"
+                            },
+                            {
+                                "value": "100 to 110",
+                                "description": "Private/Experimental algorithm"
+                            }           
+                        ],
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "KeyID",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Creation date",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Expiration date",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Ownertrust",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Key capabilities",
+                        "possibleValues": [
+                            {
+                                "value": "e",
+                                "description": "Encrypt"
+                            },
+                            {
+                                "value": "s",
+                                "description": "Sign"
+                            },
+                            {
+                                "value": "c",
+                                "description": "Certify"
+                            },
+                            {
+                                "value": "a",
+                                "description": "Authentication"
+                            },
+                            {
+                                "value": "?",
+                                "description": "Unknown capability"
+                            },
+                            {
+                                "value": "D",
+                                "description": "Disabled key"
+                            },
+                            {
+                                "value": "Additional information",
+                                "description": "A key may have any combination of them in any order.  In addition to these letters, the primary key has uppercase versions of the letters to denote the _usable_ capabilities of the entire key, and a potential letter 'D' to indicate a disabled key."
+                            }
+                        ],
+                        "multipleFlags": true
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "S/N of a token",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "dummy",
+                        "possibleValues": null,
+                        "multipleFlags": false
+                    },
+                    {
+                        "description": "Compliance flags",
+                        "possibleValues": [
+                            {
+                                "value": "8",
+                                "description": "The key is compliant with RFC4880bis"
+                            },
+                            {
+                                "value": "23",
+                                "description": "The key is compliant with compliance mode \"de-vs\"."
+                            },
+                            {
+                                "value": "6001",
+                                "description": "Screening hit on the ROCA vulnerability."
+                            }
+                        ],
+                        "multipleFlags": false
+                    }                   
+                ] 
+            }
+        }
+    ]
+}
