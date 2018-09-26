@@ -205,8 +205,7 @@ class GPGShell{
 			$args[] = '--output';
 			$args[] = $outfilename;
 			$args[] = $infilename;
-			$cmd = sprintf('gpg %s ', implode(' ', $args));
-			log_message('debug', $cmd);			
+			$cmd = sprintf('gpg %s ', implode(' ', $args));		 
 			$return=$this->run($cmd);
 			if($return!==FALSE){	
 				$return=file_get_contents($outfilename);
