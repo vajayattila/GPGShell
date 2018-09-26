@@ -21,7 +21,7 @@
  *  --verify
  */
 
-require_once('./GPGColonParser.php');
+require_once(__DIR__.'/GPGColonParser.php');
 
  // Interface class for gpg (GnuPG) shell commands
 class GPGShell{
@@ -152,7 +152,7 @@ class GPGShell{
 	// @brief Import public or private key 
 	function importKey($key){
 		$return=false;
-		$filename='./'.uniqid().'.tmp';
+		$filename=__DIR__.'/'.uniqid().'.tmp';
 		if(file_put_contents($filename, $key)!==FALSE){
 			$this->__output=NULL;
 			$args = $this->makeArgs();			
@@ -169,8 +169,8 @@ class GPGShell{
 	// @brief Encrypt string
 	function encrypt($userid, $data){
 		$return=false;
-		$infilename='./'.uniqid().'_in.tmp';
-		$outfilename='./'.uniqid().'_out.tmp';
+		$infilename=__DIR__.'/'.uniqid().'_in.tmp';
+		$outfilename=__DIR__.'/'.uniqid().'_out.tmp';
 		if(file_put_contents($infilename, $data)!==FALSE){
 			$this->__output=NULL;
 			$args = $this->makeArgs();		
@@ -195,8 +195,8 @@ class GPGShell{
 	// @brief Decrypt pgp_message
 	function decrypt($userid, $pgpdata){
 		$return=false;
-		$infilename='./'.uniqid().'_in.tmp';
-		$outfilename='./'.uniqid().'_out.tmp';		
+		$infilename=__DIR__.'/'.uniqid().'_in.tmp';
+		$outfilename=__DIR__.'/'.uniqid().'_out.tmp';		
 		if(file_put_contents($infilename, $pgpdata)!==FALSE){
 			$this->__output=NULL;
 			$args = $this->makeArgs();		
@@ -206,6 +206,7 @@ class GPGShell{
 			$args[] = $outfilename;
 			$args[] = $infilename;
 			$cmd = sprintf('gpg %s ', implode(' ', $args));
+			log_message('debug', $cmd);			
 			$return=$this->run($cmd);
 			if($return!==FALSE){	
 				$return=file_get_contents($outfilename);
