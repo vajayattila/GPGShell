@@ -5,7 +5,7 @@
  *  @brief Colon parser for --list-keys and --list-secret-keys directive. Project home: https://github.com/vajayattila/GPGShell
  *	@author Vajay Attila (vajay.attila@gmail.com)
  *  @copyright MIT License (MIT)
- *  @date 2018.09.20-2018.09.24
+ *  @date 2018.09.20-2018.09.26
  *  @version 1.0.0.0
  */
 
