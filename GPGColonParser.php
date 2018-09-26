@@ -14,7 +14,7 @@
     private $__lasttime;
 
     function __construct(){
-        $structureJson=file_get_contents("./GPGStructure.json");
+        $structureJson=file_get_contents(__DIR__.'/GPGStructure.json');
         $this->__structure=json_decode($structureJson, true);
         //print_r($this->__structure);
     } 
