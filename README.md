@@ -78,3 +78,12 @@ gpg --detach-sign --armor --batch --quiet --yes --output  ./encodeble.txt.sig --
 ```
 gpg --batch --quiet --recipient import@test --verify ./encodeble.txt.sig ./encodable.txt
 ```
+## GPGShell library for CodeIgniter
+### Load library
+```
+$this->load->library('gpgshell_lib');
+```
+### Using gpgshell_lib library
+```
+$this->gpgshell_lib->encrypt(.......)
+```
