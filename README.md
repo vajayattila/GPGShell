@@ -32,6 +32,7 @@ Then type into your browser: http://localhost:8000/GPGTest.php
 - --decrypt
 - --detach-sign
 - --verify
+- --list-packets
 ## Sample gpg commands
 ### Internal commands
 - Delete keypairs
@@ -77,6 +78,10 @@ gpg --detach-sign --armor --batch --quiet --yes --output  ./encodeble.txt.sig --
 - Verify
 ```
 gpg --batch --quiet --recipient import@test --verify ./encodeble.txt.sig ./encodable.txt
+```
+- List packets
+```
+gpg --list-packets --batch --homedir .gnupg test.pgp
 ```
 ## GPGShell library for CodeIgniter
 ### Load library
