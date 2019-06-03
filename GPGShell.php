@@ -5,8 +5,8 @@
  *  @brief Interface for gpg (GnuPG) shell commands. Project home: https://github.com/vajayattila/GPGShell
  *	@author Vajay Attila (vajay.attila@gmail.com)
  *  @copyright MIT License (MIT)
- *  @date 2018.09.19-2018.09.26
- *  @version 1.0.0.0
+ *  @date 2018.09.19-2019.06.03
+ *  @version 1.0.1.1
  * 
  *  Features:
  * 	--list-keys
@@ -18,6 +18,7 @@
  *  --decrypt
  *  --detach-sign
  *  --verify
+ *  --list-packets
  */
 
 require_once(__DIR__.'/GPGColonParser.php');
@@ -218,7 +219,7 @@ class GPGShell{
 	// @brief Create sign file for a file
     public function detachSign($fileName, $sigName, $userid)
     {
-		$args = array();
+		$args = $this->makeArgs();			
 		$args[] = '--detach-sign';
 		$args[] ='--armor';		
 		$args[] = '--batch';
@@ -236,7 +237,7 @@ class GPGShell{
 	// @brief Verify sign file
 	public function verify($fileName, $sigName, $userid)
     {
-        $args = array();
+		$args = $this->makeArgs();		
 		$args[] = '--batch';
 		$args[] = '--quiet';
 		$args[] = '--recipient';	
@@ -246,7 +247,26 @@ class GPGShell{
 		$args[] = $fileName;		
 		$cmd = sprintf('gpg %s', implode(' ', $args));		
         return self::run($cmd);
-    }	
+	}	
+	
+	public function listPackets($pgpdata, &$output){
+		$return=false;		
+		$filename=__DIR__.'/'.uniqid().'.tmp';
+		if(file_put_contents($filename, $pgpdata)!==FALSE){
+			$args = $this->makeArgs();		
+			$args[] = '--batch';
+			$args[] = '--list-packets';			
+			$args[] = $filename;	
+			$cmd = sprintf('gpg %s', implode(' ', $args));	
+			$return=self::run($cmd);		
+			if($return!==FALSE){
+				$output=$this->output;
+			}				
+			unlink($filename);
+		}
+		return $return;
+	}
+		
 
 }
 

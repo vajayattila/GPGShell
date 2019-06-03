@@ -5,8 +5,8 @@
  *  @brief GPGShell library for CodeIgniter. Project home: https://github.com/vajayattila/GPGShell
  *	@author Vajay Attila (vajay.attila@gmail.com)
  *  @copyright MIT License (MIT)
- *  @date 2018.09.26-2018.09.26
- *  @version 1.0.0.0
+ *  @date 2018.09.26-2019.06.03
+ *  @version 1.0.1.1
  */
 
 require_once(realpath(__DIR__.'/GPGShell.php'));
@@ -58,6 +58,28 @@ class Gpgshell_lib{
 
     function getExitCode(){
         return $this->gpg->exitCode; 
+    }
+
+	public function listPackets($pgpdata, &$output){
+        return $this->gpg->listPackets($pgpdata, $output);
+    }    
+
+    public function addressedUserId($pgpdata, &$output){
+        $return=$this->listPackets($pgpdata, $output);
+        if($return!==FALSE){
+            $lines=explode("\n", $output);
+            if(count($lines)>=2){
+                $line=explode("\"", $lines[1]);
+                if(count($line)>=3){
+                    $output=$line[1];    
+                }else{
+                    $return=FALSE;    
+                }
+            }else{
+                $return=FALSE; 
+            }
+        }
+        return $return;
     }
 
 }
