@@ -20,8 +20,8 @@ class Gpgshell_lib{
         $this->gpg=new GPGShell(realpath(__DIR__.'/.gnupg'));
     }
 
-    function listKeys(){
-        return $this->gpg->listKeys();
+    function listKeys($keyid=NULL){
+        return $this->gpg->listKeys($keyid);
     }
 
     function listSecretKeys(){
@@ -66,14 +66,25 @@ class Gpgshell_lib{
 
     public function addressedUserId($pgpdata, &$output){
         $return=$this->listPackets($pgpdata, $output);
-        if($return!==FALSE){
-            $lines=explode("\n", $output);
-            if(count($lines)>=2){
-                $line=explode("\"", $lines[1]);
-                if(count($line)>=3){
-                    $output=$line[1];    
-                }else{
-                    $return=FALSE;    
+        if($return!==FALSE){            
+            if(count($output)>=2){                       
+                $line=explode("\n", $output[1]);          
+                $keyidarr=explode(" keyid ", $line[0]);
+                $keyid=$keyidarr[1];
+                $return=$this->listKeys($keyid);
+                if($return!==FALSE){
+                    foreach($this->gpg->output as $key=>$rec){
+                        if(!$this->gpg->isSpecialRecord($key)&&'tru'!=$key){
+                            foreach($rec as $item){
+                                switch($item['recordtype']){
+                                    case 'uid':
+                                        $uid=$item['fields'][9];
+                                        $output=$uid['value'];            					
+                                        break;
+                                }
+                            }
+                        }
+                    }     
                 }
             }else{
                 $return=FALSE; 
