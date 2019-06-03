@@ -102,12 +102,15 @@ class GPGShell{
 	}	
 	
 	// @brief List keys
-	function listKeys()
+	function listKeys($keyid=NULL)
 	{
 		$this->__output=NULL;
 		$args = $this->makeArgs();				
 		$args[] = '--list-keys';
 		$args[] = '--with-colons';		
+		if($keyid!==NULL){
+			$args[] = $keyid;	
+		}
 		$cmd = sprintf('gpg %s ', implode(' ', $args));
 		$retval=$this->run($cmd);
 		$this->__output=$this->__colonParser->parseOutput($this->output);
@@ -254,6 +257,9 @@ class GPGShell{
 		$filename=__DIR__.'/'.uniqid().'.tmp';
 		if(file_put_contents($filename, $pgpdata)!==FALSE){
 			$args = $this->makeArgs();		
+			if (($key = array_search("--quiet", $args)) !== false) { // remove --quiet
+				unset($args[$key]);
+			}			
 			$args[] = '--batch';
 			$args[] = '--list-packets';			
 			$args[] = $filename;	
