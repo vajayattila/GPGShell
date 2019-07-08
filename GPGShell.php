@@ -96,7 +96,7 @@ class GPGShell{
 	function __set($name, $value) {
 		if($name === 'homedir'){
 			$this->__homedir=$value;
-		}{
+		}else{
 			user_error("Can't set property: " . __CLASS__ . "->$name");
 		}
 	}	
