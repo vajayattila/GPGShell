@@ -4,3 +4,5 @@
 \.gnupg/pubring\.kbx~
 
 \.gnupg/trustdb\.gpg
+
+\.gnupg/

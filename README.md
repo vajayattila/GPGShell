@@ -33,6 +33,8 @@ Then type into your browser: http://localhost:8000/GPGTest.php
 - --detach-sign
 - --verify
 - --list-packets
+- --import-ownertrust
+- --gen-key
 ## Sample gpg commands
 ### Internal commands
 - Delete keypairs
@@ -92,3 +94,13 @@ $this->load->library('gpgshell_lib');
 ```
 $this->gpgshell_lib->encrypt(.......)
 ```
+## Version history
+### 1.1.0.2 verion
+- Add importOwnertrust
+- Add genKey
+- Add getKeyFingerprintsByEmail
+- Add getSecretKeyFingerprintsByEmail
+- Add deleteSecretKeyByFingerprint
+- Add deleteKeyByFingerprint
+- Add deleteAllSecretKeyByEmail
+- Add deleteAllKeyByEmail

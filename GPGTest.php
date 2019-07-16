@@ -5,7 +5,7 @@
  *  @brief Interface for gpg (GnuPG) shell commands test cases. Project home: https://github.com/vajayattila/GPGShell
  *	@author Vajay Attila (vajay.attila@gmail.com)
  *  @copyright MIT License (MIT)
- *  @date 2018.09.19-2018.09.24
+ *  @date 2018.09.19-2019.07.16
  *  @version 1.0.0.0
  * 
  *  Testing:
@@ -18,6 +18,13 @@
  *  --decrypt
  *  --detach-sign
  *  --verify
+ *  --gen-key
+ *  getKeyFingerprintsByEmail
+ * 	getSecretKeyFingerprintsByEmail
+ * 	deleteSecretKeyByFingerprint
+ *  deleteKeyByFingerprint
+ * 	deleteAllSecretKeyByEmail
+ * 	deleteAllKeyByEmail
  */
 
 require_once (__DIR__."/GPGShell.php");
@@ -42,7 +49,7 @@ function printField($gpg, $field){
 	print stringwidth($field['description'], 30, 'right').' = '. stringwidth($field['value'], 30);
 	$desc=$gpg->getValueDescription($field);
 	if($desc!=NULL){
-		print ' '.$gpg->getValueDescription($field);
+		print ' '.$desc;
 	}
 	print "\n";
 } 
@@ -160,14 +167,31 @@ function printDecrypt($gpg, $userid, $pgpmessage){
 
 // Test cases
 //----------------------------------------------------
+// Test of --gen-key command
+//$gpg->genKey(2048, 'GPGShell test keys', 'gpgshell@test.hu', 0, NULL);
+//$gpg->genKey(2048, 'GPGShell test keys 2', 'gpgshell@test2.hu', 0, NULL);
+//$gpg->genKey(2048, 'GPGShell test keys 3', 'gpgshell@test3.hu', 0, NULL);
+
+// Test of getFingerprintsByEmail
+//$gpg->getKeyFingerprintsByEmail('gpgshell@test.hu');
+//$gpg->getSecretKeyFingerprintsByEmail('gpgshell@test.hu');
+
+// Test of deleteSecretKeyByFingerprint
+//$gpg->deleteSecretKeyByFingerprint('3C1FC03AE8BBBDBE561464853253DF9A0244E3DD');
+//$gpg->deleteAllSecretKeyByEmail('gpgshell@test.hu');
+
+// Test of --list-keys command
+printListSecretKeys($gpg);
+
+// Test of deleteKeyByFingerprint
+//$gpg->deleteKeyByFingerprint('8EADE9526A9599F48B1A69E20F646DD8E2494AB9');
+//$gpg->deleteAllKeyByEmail('gpgshell@test.hu');
+
 // Test of --list-keys command
 printListKeys($gpg);
 
-// Test of --list-keys command
-// printListSecretKeys($gpg);
-
 // Test of --export-secret-key
-// printSecretKey($gpg, 'test@gpgshell.example');
+//printSecretKey($gpg, 'test@gpgshell.example');
 
 // Test of --export-key
 // printKey($gpg, 'test@gpgshell.example');

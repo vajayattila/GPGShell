@@ -5,20 +5,29 @@
  *  @brief Interface for gpg (GnuPG) shell commands. Project home: https://github.com/vajayattila/GPGShell
  *	@author Vajay Attila (vajay.attila@gmail.com)
  *  @copyright MIT License (MIT)
- *  @date 2018.09.19-2019.06.03
- *  @version 1.0.1.1
+ *  @date 2018.09.19-2019.07.16
+ *  @version 1.1.0.2
  * 
  *  Features:
- * 	--list-keys
- *  --list-secret-keys
- *  --export
- *  --export-secret-key
- *  --import
- *  --encrypt
- *  --decrypt
- *  --detach-sign
- *  --verify
- *  --list-packets
+ * 		--list-keys
+ *  	--list-secret-keys
+ *  	--export
+ *  	--export-secret-key
+ *  	--import
+ *  	--encrypt
+ *  	--decrypt
+ *  	--detach-sign
+ *  	--verify
+ *  	--list-packets
+ * 		--import-ownertrust
+ *  	--gen-key
+ * 	Special features:
+ *  	getKeyFingerprintsByEmail
+ *  	getSecretKeyFingerprintsByEmail
+ * 		deleteSecretKeyByFingerprint
+ * 		deleteKeyByFingerprint
+ * 		deleteAllSecretKeyByEmail
+ * 		deleteAllKeyByEmail
  */
 
 require_once(__DIR__.'/GPGColonParser.php');
@@ -168,6 +177,179 @@ class GPGShell{
 		}
 		return $return;
 	}
+
+	// @brief Import ownertrust
+	function importOwnertrust($otfilename){
+		$return=false;
+		$args = array();	
+		$args = $this->makeArgs();				
+		$args[] = '--import-ownertrust';	
+		$args[] = $otfilename;				
+		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$return=$this->run($cmd);
+		//print_r($cmd);
+		return $return;
+	}	
+
+	/* @brief genKey
+	 * @param [in] $keylength	The requested length of the generated key in bits.
+	 * @param [in] $nameReal	Real name
+	 * @param [in] $nameEmail	email
+	 * @param [in] $expireDate	Set the expiration date for the key (and the subkey). It may either be entered in ISO date format (e.g. "20000815T145012") or as number of days, weeks, month or years after the creation date. The special notation "seconds=N" is also allowed to specify a number of seconds since creation. Without a letter days are assumed. Note that there is no check done on the overflow of the type used by OpenPGP for timestamps. Thus you better make sure that the given value make sense. Although OpenPGP works with time intervals, GnuPG uses an absolute value internally and thus the last year we can represent is 2105. 
+	 * @param [in] $Passphrase	NULL or Passphrase
+	 */
+	function genKey($keylength, $nameReal, $nameEmail, $expireDate, $Passphrase){
+		$return=false;
+		$scriptfilename=__DIR__.'/'.uniqid().'_script.tmp';
+		$content=
+			"Key-Type: 1\nKey-Length: $keylength\nSubkey-Type: 1\nSubkey-Length: $keylength\n".
+			"Name-Real: $nameReal\nName-Email: $nameEmail\nExpire-Date: $expireDate\n".
+			($Passphrase===NULL?"%no-protection\n":"Passphrase: $Passphrase\n");
+		file_put_contents($scriptfilename,$content);
+		$args = $this->makeArgs();		
+		$args[] = '--gen-key';	
+		$args[] = $scriptfilename;				
+		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$return=$this->run($cmd);
+		//print_r($cmd."\n");
+		//print_r($content."\n");		
+		unlink($scriptfilename);		
+		return $return;
+	}
+
+	/* @brief Get public key's fingerprints by email */
+	function getKeyFingerprintsByEmail($nameEmail){
+		$retval=FALSE;
+		$record=array();
+		if($this->listKeys()){
+			foreach($this->output as $key=>$rec){
+				if(!$this->isSpecialRecord($key)&&'tru'!=$key){
+					foreach($rec as $item){		
+						//print_r( $item);										
+						switch($item['recordtype']){
+							case 'pub':
+								$r=$item['fields'][4];
+								$record=array(
+									$r['description']=>$r['value']
+								);								
+								//print_r($item['fields'][4]);
+								break;
+							case 'fpr':																												
+								if($record!==null){
+									$r=$item['fields'][9];
+									$record[$r['description']]=$r['value'];
+								}	
+								break;				
+							case 'uid':
+								if($record!==null){
+									$r=$item['fields'][9];
+									$userid=$r['value'];
+									if(strpos($userid, "<$nameEmail>")){
+										$record[$r['description']]=$userid;									
+										$retval[]=$record;
+									}
+									$record=null;		
+								}
+								//print_r($item['fields'][9]);									
+								break;							
+						}
+					}
+				}
+			}
+		}
+		//print_r($retval);
+		return $retval;
+	}
+
+	/* @brief Get private key's fingerprints by email */
+	function getSecretKeyFingerprintsByEmail($nameEmail){
+		$retval=FALSE;
+		$record=array();
+		if($this->listSecretKeys()){
+			foreach($this->output as $key=>$rec){
+				if(!$this->isSpecialRecord($key)&&'tru'!=$key){
+					foreach($rec as $item){		
+						//print_r( $item);										
+						switch($item['recordtype']){
+							case 'sec':
+								$r=$item['fields'][4];
+								$record=array(
+									$r['description']=>$r['value']
+								);								
+								//print_r($item['fields'][4]);
+								break;
+							case 'fpr':																												
+								if($record!==null){
+									$r=$item['fields'][9];
+									$record[$r['description']]=$r['value'];
+								}	
+								break;				
+							case 'uid':
+								if($record!==null){
+									$r=$item['fields'][9];
+									$userid=$r['value'];
+									if(strpos($userid, "<$nameEmail>")){
+										$record[$r['description']]=$userid;									
+										$retval[]=$record;
+									}
+									$record=null;		
+								}
+								//print_r($item['fields'][9]);									
+								break;							
+						}
+					}
+				}
+			}
+		}
+		//print_r($retval);
+		return $retval;
+	}	
+	
+	// @brief Delete private key by fingerprint
+	function deleteSecretKeyByFingerprint($fingerprint){
+		$args = $this->makeArgs();		
+		$args[] = '--yes';		
+		$args[] = '--delete-secret-key';	
+		$args[] = $fingerprint;				
+		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$return=$this->run($cmd);
+		return $return;
+	}
+
+	// @brief Delete private key by fingerprint
+	function deleteKeyByFingerprint($fingerprint){
+		$args = $this->makeArgs();		
+		$args[] = '--yes';		
+		$args[] = '--delete-key';	
+		$args[] = $fingerprint;				
+		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$return=$this->run($cmd);
+		return $return;
+	}	
+
+	// @brief Delete all private key by email	
+	function deleteAllSecretKeyByEmail($nameEmail){
+		$return=true;
+		$keys=$this->getSecretKeyFingerprintsByEmail($nameEmail);
+		foreach($keys as $item){
+			if($return===true){
+				$return=$this->deleteSecretKeyByFingerprint($item['Fingerprint']);
+			}
+		}
+		return $return;
+	}
+
+	// @brief Delete all public key by email	
+	function deleteAllKeyByEmail($nameEmail){
+		$return=true;
+		$keys=$this->getKeyFingerprintsByEmail($nameEmail);
+		foreach($keys as $item){
+			if($return===true){
+				$return=$this->deleteKeyByFingerprint($item['Fingerprint']);
+			}
+		}
+		return $return;
+	}	
 
 	// @brief Encrypt string
 	function encrypt($userid, $data){
