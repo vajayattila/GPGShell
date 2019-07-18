@@ -104,3 +104,5 @@ $this->gpgshell_lib->encrypt(.......)
 - Add deleteKeyByFingerprint
 - Add deleteAllSecretKeyByEmail
 - Add deleteAllKeyByEmail
+### 1.2.0.3 verion
+- new Programmable gpg exe name
