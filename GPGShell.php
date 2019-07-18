@@ -5,8 +5,8 @@
  *  @brief Interface for gpg (GnuPG) shell commands. Project home: https://github.com/vajayattila/GPGShell
  *	@author Vajay Attila (vajay.attila@gmail.com)
  *  @copyright MIT License (MIT)
- *  @date 2018.09.19-2019.07.16
- *  @version 1.1.0.2
+ *  @date 2018.09.19-2019.07.18
+ *  @version 1.2.0.3
  * 
  *  Features:
  * 		--list-keys
@@ -42,10 +42,13 @@ class GPGShell{
 	private $__exitcode;
 	// @brief Colon parser
 	private $__colonParser;
+	// @brief gpg exe name
+	private $__gpg_exe_name;
 	
 	// @brief Constructor with an optional homedir parameter
 	function __construct(){
 		$this->__colonParser=new GPGColonParser();
+		$this->__gpg_exe_name="gpg";
 		$i = func_num_args();		
 		if($i===1){
 			$a = func_get_args();
@@ -97,6 +100,8 @@ class GPGShell{
 			return $this->__output;			
 		} else if($name === 'homedir'){ 
 			return $this->__homedir;				
+		} else if($name === 'gpg_exe_name'){ 
+			return $this->__gpg_exe_name;				
 		} else {
 			user_error("Invalid property: " . __CLASS__ . "->$name");
 		}
@@ -105,6 +110,8 @@ class GPGShell{
 	function __set($name, $value) {
 		if($name === 'homedir'){
 			$this->__homedir=$value;
+		}else if($name === 'gpg_exe_name'){
+			$this->__gpg_exe_name=$value;
 		}else{
 			user_error("Can't set property: " . __CLASS__ . "->$name");
 		}
@@ -116,11 +123,12 @@ class GPGShell{
 		$this->__output=NULL;
 		$args = $this->makeArgs();				
 		$args[] = '--list-keys';
-		$args[] = '--with-colons';		
+		$args[] = '--with-colons';	
+		$args[] = '--with-fingerprint';			
 		if($keyid!==NULL){
 			$args[] = $keyid;	
 		}
-		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));
 		$retval=$this->run($cmd);
 		$this->__output=$this->__colonParser->parseOutput($this->output);
 		return $retval;
@@ -132,8 +140,9 @@ class GPGShell{
 		$this->__output=NULL;
 		$args = $this->makeArgs();		
 		$args[] = '--list-secret-keys';
-		$args[] = '--with-colons';		
-		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$args[] = '--with-colons';	
+		$args[] = '--with-fingerprint';	
+		$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));
 		$retval=$this->run($cmd);
 		$this->__output=$this->__colonParser->parseOutput($this->output);
 		return $retval;
@@ -146,7 +155,7 @@ class GPGShell{
 		$args[] = '--armor';	
 		$args[] = '--export-secret-key';
 		$args[] = $userid;				
-		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));
 		return $retval=$this->run($cmd);		
 	}
 
@@ -157,7 +166,7 @@ class GPGShell{
 		$args[] = '--armor';	
 		$args[] = '--export';
 		$args[] = $userid;				
-		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));
 		return $retval=$this->run($cmd);		
 	}
 
@@ -170,9 +179,11 @@ class GPGShell{
 			$args = $this->makeArgs();			
 			$args[] = '--armor';	
 			$args[] = '--import';
-			$args[] = $filename;				
-			$cmd = sprintf('gpg %s ', implode(' ', $args));
+			$args[] = $filename;	
+			//$args[] = '2>&1';	
+			$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));
 			$return=$this->run($cmd);	
+			//echo 'importKey->'.print_r($this->output, true).'<br>';	
 			unlink($filename);					
 		}
 		return $return;
@@ -184,10 +195,10 @@ class GPGShell{
 		$args = array();	
 		$args = $this->makeArgs();				
 		$args[] = '--import-ownertrust';	
-		$args[] = $otfilename;				
-		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$args[] = $otfilename;	
+		//$args[] = '2>&1';						
+		$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));
 		$return=$this->run($cmd);
-		//print_r($cmd);
 		return $return;
 	}	
 
@@ -209,7 +220,7 @@ class GPGShell{
 		$args = $this->makeArgs();		
 		$args[] = '--gen-key';	
 		$args[] = $scriptfilename;				
-		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));
 		$return=$this->run($cmd);
 		//print_r($cmd."\n");
 		//print_r($content."\n");		
@@ -269,7 +280,7 @@ class GPGShell{
 			foreach($this->output as $key=>$rec){
 				if(!$this->isSpecialRecord($key)&&'tru'!=$key){
 					foreach($rec as $item){		
-						//print_r( $item);										
+						//print_r( $item);															
 						switch($item['recordtype']){
 							case 'sec':
 								$r=$item['fields'][4];
@@ -282,13 +293,14 @@ class GPGShell{
 								if($record!==null){
 									$r=$item['fields'][9];
 									$record[$r['description']]=$r['value'];
+									//print_r($record);
 								}	
 								break;				
 							case 'uid':
 								if($record!==null){
 									$r=$item['fields'][9];
 									$userid=$r['value'];
-									if(strpos($userid, "<$nameEmail>")){
+									if(strpos($userid, "$nameEmail")){
 										$record[$r['description']]=$userid;									
 										$retval[]=$record;
 									}
@@ -301,7 +313,7 @@ class GPGShell{
 				}
 			}
 		}
-		//print_r($retval);
+		//echo 'getSecretKeyFingerprintsByEmail->'.print_r($retval, true).'<br>';
 		return $retval;
 	}	
 	
@@ -311,8 +323,10 @@ class GPGShell{
 		$args[] = '--yes';		
 		$args[] = '--delete-secret-key';	
 		$args[] = $fingerprint;				
-		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		//$args[] = '2>&1';	
+		$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));
 		$return=$this->run($cmd);
+		//echo 'deleteSecretKeyByFingerprint->'.print_r($this->output, true).'<br>';
 		return $return;
 	}
 
@@ -321,9 +335,11 @@ class GPGShell{
 		$args = $this->makeArgs();		
 		$args[] = '--yes';		
 		$args[] = '--delete-key';	
-		$args[] = $fingerprint;				
-		$cmd = sprintf('gpg %s ', implode(' ', $args));
+		$args[] = $fingerprint;		
+		//$args[] = '2>&1';			
+		$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));
 		$return=$this->run($cmd);
+		//echo 'deleteKeyByFingerprint->'.print_r($this->output, true).'<br>';		
 		return $return;
 	}	
 
@@ -331,9 +347,11 @@ class GPGShell{
 	function deleteAllSecretKeyByEmail($nameEmail){
 		$return=true;
 		$keys=$this->getSecretKeyFingerprintsByEmail($nameEmail);
-		foreach($keys as $item){
-			if($return===true){
-				$return=$this->deleteSecretKeyByFingerprint($item['Fingerprint']);
+		if(isset($keys)&&is_array($keys)){
+			foreach($keys as $item){
+				if($return===true){
+					$return=$this->deleteSecretKeyByFingerprint($item['Fingerprint']);
+				}
 			}
 		}
 		return $return;
@@ -343,9 +361,11 @@ class GPGShell{
 	function deleteAllKeyByEmail($nameEmail){
 		$return=true;
 		$keys=$this->getKeyFingerprintsByEmail($nameEmail);
-		foreach($keys as $item){
-			if($return===true){
-				$return=$this->deleteKeyByFingerprint($item['Fingerprint']);
+		if(isset($keys)&&is_array($keys)){		
+			foreach($keys as $item){
+				if($return===true){
+					$return=$this->deleteKeyByFingerprint($item['Fingerprint']);
+				}
 			}
 		}
 		return $return;
@@ -366,7 +386,7 @@ class GPGShell{
 			$args[] = '--recipient';
 			$args[] = $userid;
 			$args[] = $infilename;
-			$cmd = sprintf('gpg %s ', implode(' ', $args));
+			$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));
 			$return=$this->run($cmd);
 			if($return!==FALSE){	
 				$return=file_get_contents($outfilename);
@@ -390,7 +410,7 @@ class GPGShell{
 			$args[] = '--output';
 			$args[] = $outfilename;
 			$args[] = $infilename;
-			$cmd = sprintf('gpg %s ', implode(' ', $args));		 
+			$cmd = sprintf($this->__gpg_exe_name.' %s ', implode(' ', $args));		 
 			$return=$this->run($cmd);
 			if($return!==FALSE){	
 				$return=file_get_contents($outfilename);
@@ -415,7 +435,7 @@ class GPGShell{
 		$args[] ='--recipient';	
 		$args[] = $userid;		
 		$args[] = $fileName;
-		$cmd = sprintf('gpg %s', implode(' ', $args));
+		$cmd = sprintf($this->__gpg_exe_name.' %s', implode(' ', $args));
         return $this->run($cmd);
 	}	
 	
@@ -430,7 +450,7 @@ class GPGShell{
 		$args[] = '--verify';							
 		$args[] = $sigName;
 		$args[] = $fileName;		
-		$cmd = sprintf('gpg %s', implode(' ', $args));		
+		$cmd = sprintf($this->__gpg_exe_name.' %s', implode(' ', $args));		
         return self::run($cmd);
 	}	
 	
@@ -445,7 +465,7 @@ class GPGShell{
 			$args[] = '--batch';
 			$args[] = '--list-packets';			
 			$args[] = $filename;	
-			$cmd = sprintf('gpg %s', implode(' ', $args));	
+			$cmd = sprintf($this->__gpg_exe_name.' %s', implode(' ', $args));	
 			$return=self::run($cmd);		
 			if($return!==FALSE){
 				$output=$this->output;
