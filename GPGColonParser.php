@@ -184,7 +184,7 @@
 
     function parseOutput($output){
         $return = array();
-        print_r($output);
+        //print_r($output);
         foreach($output as $line){
             if(is_array($line)){
                 print_r($line);
