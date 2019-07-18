@@ -5,8 +5,8 @@
  *  @brief Colon parser for --list-keys and --list-secret-keys directive. Project home: https://github.com/vajayattila/GPGShell
  *	@author Vajay Attila (vajay.attila@gmail.com)
  *  @copyright MIT License (MIT)
- *  @date 2018.09.20-2018.09.26
- *  @version 1.0.0.0
+ *  @date 2018.09.20-2019.07.18
+ *  @version 1.0.1.2
  */
 
  class GPGColonParser{
@@ -101,7 +101,7 @@
     
     private function parseuid($fields){
         $return=$this->parse__($fields, 21, __FUNCTION__);  
-        $this->__lasttime=$return['fields'][5]['value'];            
+        //$this->__lasttime=$return['fields'][5]['value'];            
         $this->toUTCTime($return['fields'][5]['value']);  
         $this->toUTCTime($return['fields'][6]['value']);         
         return $return;
@@ -138,10 +138,11 @@
             case 'spk':
             case 'cfg':
                 $return=$fields[0];
-                break;               
+                break;     
+            case 'uid':              
             case 'fpr':
                 $return=$this->__lasttime;
-                $this->__lasttime=NULL;
+                //$this->__lasttime=NULL;
                 break;
             default:
                 // already set
@@ -151,17 +152,19 @@
 
     function isSpecialRecord($fields){
         $return=false;
-        switch($fields[0]){
-            case 'pkd':
-            case 'tfs':
-            case 'tru':
-            case 'spk':
-            case 'cfg':
-                $return=true;
-                break;               
-            default:
-                // already set
-        };
+        if(isset($fields[0])){
+            switch($fields[0]){
+                case 'pkd':
+                case 'tfs':
+                case 'tru':
+                case 'spk':
+                case 'cfg':
+                    $return=true;
+                    break;               
+                default:
+                    // already set
+            };
+        }
         return $return;
     }
 
@@ -181,7 +184,7 @@
 
     function parseOutput($output){
         $return = array();
-        //print_r($output);
+        print_r($output);
         foreach($output as $line){
             if(is_array($line)){
                 print_r($line);
