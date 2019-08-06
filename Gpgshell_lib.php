@@ -5,8 +5,8 @@
  *  @brief GPGShell library for CodeIgniter. Project home: https://github.com/vajayattila/GPGShell
  *	@author Vajay Attila (vajay.attila@gmail.com)
  *  @copyright MIT License (MIT)
- *  @date 2018.09.26-2019.06.03
- *  @version 1.0.1.1
+ *  @date 2018.09.26-2019.08.06
+ *  @version 1.0.2.2
  */
 
 require_once(realpath(__DIR__.'/GPGShell.php'));
@@ -67,20 +67,32 @@ class Gpgshell_lib{
     public function addressedUserId($pgpdata, &$output){
         $return=$this->listPackets($pgpdata, $output);
         if($return!==FALSE){            
-            if(count($output)>=2){                       
-                $line=explode("\n", $output[1]);          
+            if(count($output)>=2){  
+		// find keyid line
+		$linepos=false;
+		foreach($output as $linepos=>$line){
+			if(strpos($line, 'keyid')!==FALSE){
+				break;
+			}
+		}
+                $line=explode("\n", $output[$linepos]);          
                 $keyidarr=explode(" keyid ", $line[0]);
                 $keyid=$keyidarr[1];
                 $return=$this->listKeys($keyid);
                 if($return!==FALSE){
                     foreach($this->gpg->output as $key=>$rec){
-                        if(!$this->gpg->isSpecialRecord($key)&&'tru'!=$key){
-                            foreach($rec as $item){
+                        if(!$this->gpg->isSpecialRecord($key)&&'tru'!=$key){ 
+                            foreach($rec as $item){	
                                 switch($item['recordtype']){
                                     case 'uid':
                                         $uid=$item['fields'][9];
-                                        $output=$uid['value'];            					
+                                        $output=$uid['value'];      																			
                                         break;
+                                    case 'pub':
+                                        $pub=$item['fields'][9];
+                                        $output=$pub['value'];  
+																				//log_message('debug', __FUNCTION__.'.output='.print_r($output, true));																					
+                                        break;																				
                                 }
                             }
                         }
@@ -92,5 +104,13 @@ class Gpgshell_lib{
         }
         return $return;
     }
+		
+	public function getEmailFromUserid($userid){
+		$return=false;
+		if(preg_match('/[\._a-zA-Z0-9-]+@[\._a-zA-Z0-9-]+/', $userid, $maches)===1){
+			$return=$maches[0];
+		}
+		return $return;
+	}
 
 }
