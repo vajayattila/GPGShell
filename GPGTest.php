@@ -30,6 +30,7 @@
 require_once (__DIR__."/GPGShell.php");
 
 $gpg=new GPGShell(__DIR__.'/.gnupg');
+include('config.php');
 
 function stringwidth($str, $width, $align="left"){
 	if($align=="left"){
